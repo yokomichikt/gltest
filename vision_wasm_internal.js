@@ -1,4 +1,3 @@
-// Build 944239401
 // This code implements the `-sMODULARIZE` settings by taking the generated
 // JS program code (INNER_JS_CODE) and wrapping it in a factory function.
 
@@ -10,8 +9,7 @@ var ModuleFactory = (() => {
   // In EXPORT_ES6 mode we can just use 'import.meta.url'.
   var _scriptName = globalThis.document?.currentScript?.src;
   return async function(moduleArg = {}) {
-    var moduleRtn;
-
+    var Module = moduleArg;
 // include: shell.js
 // include: minimum_runtime_check.js
 // end include: minimum_runtime_check.js
@@ -28,8 +26,6 @@ var ModuleFactory = (() => {
 // after the generated code, you will need to define   var Module = {};
 // before the code. Then that object will be used in the code, and you
 // can continue to use Module afterwards as well.
-var Module = moduleArg;
-
 // Determine the runtime environment we are in. You can customize this by
 // setting the ENVIRONMENT setting at compile time (see settings.js).
 // Attempt to auto-detect the environment
@@ -208,8 +204,6 @@ class EmscriptenSjLj extends EmscriptenEH {}
 // end include: runtime_exceptions.js
 // include: runtime_debug.js
 // end include: runtime_debug.js
-var readyPromiseResolve, readyPromiseReject;
-
 // Memory management
 var runtimeInitialized = false;
 
@@ -245,7 +239,7 @@ function initRuntime() {
   if (!Module["noFSInit"] && !FS.initialized) FS.init();
   TTY.init();
   // End ATINITS hooks
-  wasmExports["jd"]();
+  wasmExports["kd"]();
   // Begin ATPOSTCTORS hooks
   FS.ignorePermissions = false;
 }
@@ -285,7 +279,6 @@ function postRun() {
   // though it can.
   // TODO(https://github.com/google/closure-compiler/pull/3913): Remove if/when upstream closure gets fixed.
   /** @suppress {checkTypes} */ var e = new WebAssembly.RuntimeError(what);
-  readyPromiseReject?.(e);
   // Throw the error whether or not MODULARIZE is set because abort is used
   // in code paths apart from instantiation where an exception is expected
   // to be thrown when abort is called.
@@ -8066,12 +8059,12 @@ Module["FS_createLazyFile"] = FS_createLazyFile;
 // End JS library exports
 // end include: postlibrary.js
 var ASM_CONSTS = {
-  1502344: $0 => {
+  1509220: $0 => {
     const canvas = Emval.toValue($0);
     const context = canvas.getContext("webgpu");
     return WebGPU.importJsTexture(context.getCurrentTexture());
   },
-  1502487: ($0, $1, $2, $3, $4) => {
+  1509363: ($0, $1, $2, $3, $4) => {
     const drawable = Emval.toValue($0);
     const device = WebGPU.getJsObject($1);
     const texture = WebGPU.getJsObject($2);
@@ -8083,7 +8076,7 @@ var ASM_CONSTS = {
       texture
     }, [ width, height ]);
   },
-  1502746: ($0, $1, $2, $3) => {
+  1509622: ($0, $1, $2, $3) => {
     const sourceExtTex = Emval.toValue($0);
     const device = WebGPU.getJsObject($1);
     const sampler = WebGPU.getJsObject($2);
@@ -8100,29 +8093,29 @@ var ASM_CONSTS = {
     });
     return WebGPU.importJsBindGroup(bindGroup);
   },
-  1503116: ($0, $1) => {
+  1509992: ($0, $1) => {
     const input = Emval.toValue($0);
     const output = Emval.toValue($1);
     const ctx = output.getContext("2d");
     ctx.drawImage(input, 0, 0, output.width, output.height);
   },
-  1503281: ($0, $1) => {
+  1510157: ($0, $1) => {
     const inputArray = Emval.toValue($0);
     const output = Emval.toValue($1);
     const ctx = output.getContext("2d");
     const image_data = new ImageData(inputArray, output.width, output.height);
     ctx.putImageData(image_data, 0, 0);
   },
-  1503505: ($0, $1) => {
+  1510381: ($0, $1) => {
     const input = Emval.toValue($0);
     const outputArray = Emval.toValue($1);
     const ctx = input.getContext("2d");
     const data = ctx.getImageData(0, 0, input.width, input.height);
     outputArray.set(data.data);
   },
-  1503709: () => (typeof HTMLCanvasElement !== "undefined"),
-  1503764: () => !!Module["preinitializedWebGPUDevice"],
-  1503815: () => {
+  1510585: () => (typeof HTMLCanvasElement !== "undefined"),
+  1510640: () => !!Module["preinitializedWebGPUDevice"],
+  1510691: () => {
     specialHTMLTargets["#canvas"] = Module.canvas;
   }
 };
@@ -8191,6 +8184,15 @@ function JsOnWebGLTextureVectorListener(output_stream_name, name, width, height,
     width,
     height
   }, false, timestamp_ms);
+}
+
+function JsWrapLoggingHelpers() {
+  if (!Module["_decodeBase64"]) {
+    Module["_decodeBase64"] = function(encoded_key_ptr) {
+      const encodedStr = UTF8ToString(encoded_key_ptr);
+      return atob(encodedStr);
+    };
+  }
 }
 
 function JsOnEmptyPacketListener(output_stream_name, timestamp) {
@@ -8373,122 +8375,123 @@ function JsWrapErrorListenerInternal(code, message) {
 }
 
 // Imports from the Wasm binary.
-var _free, _malloc, _interactive_segmenter_create, _interactive_segmenter_set_image, _interactive_segmenter_segment, _interactive_segmenter_close, _wgpuDeviceAddRef, _addBoundTextureAsImageToStream, _attachImageListener, _attachImageVectorListener, _registerModelResourcesGraphService, _bindTextureToStream, _addBoundTextureToStream, _addDoubleToInputStream, _addFloatToInputStream, _addBoolToInputStream, _addIntToInputStream, _addUintToInputStream, _addStringToInputStream, _addRawDataSpanToInputStream, _allocateBoolVector, _allocateFloatVector, _allocateDoubleVector, _allocateIntVector, _allocateUintVector, _allocateStringVector, _addBoolVectorEntry, _addFloatVectorEntry, _addDoubleVectorEntry, _addIntVectorEntry, _addUintVectorEntry, _addStringVectorEntry, _addBoolVectorToInputStream, _addFloatVectorToInputStream, _addDoubleVectorToInputStream, _addIntVectorToInputStream, _addUintVectorToInputStream, _addStringVectorToInputStream, _addFlatHashMapToInputStream, _addProtoToInputStream, _addEmptyPacketToInputStream, _addBoolToInputSidePacket, _addDoubleToInputSidePacket, _addFloatToInputSidePacket, _addIntToInputSidePacket, _addUintToInputSidePacket, _addStringToInputSidePacket, _addRawDataSpanToInputSidePacket, _addProtoToInputSidePacket, _addBoolVectorToInputSidePacket, _addDoubleVectorToInputSidePacket, _addFloatVectorToInputSidePacket, _addIntVectorToInputSidePacket, _addUintVectorToInputSidePacket, _addStringVectorToInputSidePacket, _attachBoolListener, _attachBoolVectorListener, _attachDoubleListener, _attachDoubleVectorListener, _attachFloatListener, _attachFloatVectorListener, _attachIntListener, _attachIntVectorListener, _attachUintListener, _attachUintVectorListener, _attachStringListener, _attachStringVectorListener, _attachProtoListener, _attachProtoVectorListener, _getGraphConfig, ___getTypeName, _emwgpuCreateBindGroup, _emwgpuCreateBindGroupLayout, _emwgpuCreateCommandBuffer, _emwgpuCreateCommandEncoder, _emwgpuCreateComputePassEncoder, _emwgpuCreateComputePipeline, _emwgpuCreateExternalTexture, _emwgpuCreatePipelineLayout, _emwgpuCreateQuerySet, _emwgpuCreateRenderBundle, _emwgpuCreateRenderBundleEncoder, _emwgpuCreateRenderPassEncoder, _emwgpuCreateRenderPipeline, _emwgpuCreateSampler, _emwgpuCreateSurface, _emwgpuCreateTexture, _emwgpuCreateTextureView, _emwgpuCreateAdapter, _emwgpuImportBuffer, _emwgpuCreateDevice, _emwgpuCreateQueue, _emwgpuCreateShaderModule, _emwgpuOnCreateComputePipelineCompleted, _emwgpuOnCreateRenderPipelineCompleted, _clearSubgraphs, _pushBinarySubgraph, _pushTextSubgraph, _changeBinaryGraph, _changeTextGraph, _processGl, _process, _bindTextureToCanvas, _requestShaderRefreshOnGraphChange, _waitUntilIdle, _closeGraph, _setAutoRenderToScreen, _emscripten_builtin_memalign, _memalign, __emscripten_tempret_set, __emscripten_stack_restore, __emscripten_stack_alloc, _emscripten_stack_get_current, dynCall_ji, dynCall_jii, dynCall_iiiijij, dynCall_vij, dynCall_viiji, dynCall_viji, dynCall_iiiji, dynCall_ijj, dynCall_jjj, dynCall_iiiijj, dynCall_viijj, dynCall_viiijjj, dynCall_viijii, dynCall_vijjj, dynCall_vj, dynCall_viij, dynCall_jiji, dynCall_iiiiij, dynCall_iiiiijj, dynCall_iiiiiijj, memory, _kVersionStampBuildChangelistStr, _kVersionStampCitcSnapshotStr, _kVersionStampCitcWorkspaceIdStr, _kVersionStampSourceUriStr, _kVersionStampBuildClientStr, _kVersionStampBuildClientMintStatusStr, _kVersionStampBuildCompilerStr, _kVersionStampBuildDateTimePstStr, _kVersionStampBuildDepotPathStr, _kVersionStampBuildIdStr, _kVersionStampBuildInfoStr, _kVersionStampBuildLabelStr, _kVersionStampBuildTargetStr, _kVersionStampBuildTimestampStr, _kVersionStampBuildToolStr, _kVersionStampG3BuildTargetStr, _kVersionStampVerifiableStr, _kVersionStampBuildFdoTypeStr, _kVersionStampBuildBaselineChangelistStr, _kVersionStampBuildLtoTypeStr, _kVersionStampBuildPropellerTypeStr, _kVersionStampBuildPghoTypeStr, _kVersionStampBuildFdoProfileChangelistStr, _kVersionStampBuildMemprofProfileChangelistStr, _kVersionStampBuildUsernameStr, _kVersionStampBuildHostnameStr, _kVersionStampBuildDirectoryStr, _kVersionStampBuildChangelistInt, _kVersionStampCitcSnapshotInt, _kVersionStampBuildClientMintStatusInt, _kVersionStampBuildTimestampInt, _kVersionStampVerifiableInt, _kVersionStampBuildCoverageEnabledInt, _kVersionStampBuildBaselineChangelistInt, _kVersionStampPrecookedTimestampStr, _kVersionStampPrecookedClientInfoStr, __indirect_function_table, _kVersionStampBuildHasHardeningProtobuf, wasmMemory, wasmTable;
+var _free, _malloc, _interactive_segmenter_create, _interactive_segmenter_set_image, _interactive_segmenter_segment, _interactive_segmenter_close, _wgpuDeviceAddRef, _addBoundTextureAsImageToStream, _attachImageListener, _attachImageVectorListener, _mediapipeLoggerGetEncodedApiKey, _registerModelResourcesGraphService, _bindTextureToStream, _addBoundTextureToStream, _addDoubleToInputStream, _addFloatToInputStream, _addBoolToInputStream, _addIntToInputStream, _addUintToInputStream, _addStringToInputStream, _addRawDataSpanToInputStream, _allocateBoolVector, _allocateFloatVector, _allocateDoubleVector, _allocateIntVector, _allocateUintVector, _allocateStringVector, _addBoolVectorEntry, _addFloatVectorEntry, _addDoubleVectorEntry, _addIntVectorEntry, _addUintVectorEntry, _addStringVectorEntry, _addBoolVectorToInputStream, _addFloatVectorToInputStream, _addDoubleVectorToInputStream, _addIntVectorToInputStream, _addUintVectorToInputStream, _addStringVectorToInputStream, _addFlatHashMapToInputStream, _addProtoToInputStream, _addEmptyPacketToInputStream, _addBoolToInputSidePacket, _addDoubleToInputSidePacket, _addFloatToInputSidePacket, _addIntToInputSidePacket, _addUintToInputSidePacket, _addStringToInputSidePacket, _addRawDataSpanToInputSidePacket, _addProtoToInputSidePacket, _addBoolVectorToInputSidePacket, _addDoubleVectorToInputSidePacket, _addFloatVectorToInputSidePacket, _addIntVectorToInputSidePacket, _addUintVectorToInputSidePacket, _addStringVectorToInputSidePacket, _attachBoolListener, _attachBoolVectorListener, _attachDoubleListener, _attachDoubleVectorListener, _attachFloatListener, _attachFloatVectorListener, _attachIntListener, _attachIntVectorListener, _attachUintListener, _attachUintVectorListener, _attachStringListener, _attachStringVectorListener, _attachProtoListener, _attachProtoVectorListener, _getGraphConfig, ___getTypeName, _emwgpuCreateBindGroup, _emwgpuCreateBindGroupLayout, _emwgpuCreateCommandBuffer, _emwgpuCreateCommandEncoder, _emwgpuCreateComputePassEncoder, _emwgpuCreateComputePipeline, _emwgpuCreateExternalTexture, _emwgpuCreatePipelineLayout, _emwgpuCreateQuerySet, _emwgpuCreateRenderBundle, _emwgpuCreateRenderBundleEncoder, _emwgpuCreateRenderPassEncoder, _emwgpuCreateRenderPipeline, _emwgpuCreateSampler, _emwgpuCreateSurface, _emwgpuCreateTexture, _emwgpuCreateTextureView, _emwgpuCreateAdapter, _emwgpuImportBuffer, _emwgpuCreateDevice, _emwgpuCreateQueue, _emwgpuCreateShaderModule, _emwgpuOnCreateComputePipelineCompleted, _emwgpuOnCreateRenderPipelineCompleted, _clearSubgraphs, _pushBinarySubgraph, _pushTextSubgraph, _changeBinaryGraph, _changeTextGraph, _processGl, _process, _bindTextureToCanvas, _requestShaderRefreshOnGraphChange, _waitUntilIdle, _closeGraph, _setAutoRenderToScreen, _emscripten_builtin_memalign, _memalign, __emscripten_tempret_set, __emscripten_stack_restore, __emscripten_stack_alloc, _emscripten_stack_get_current, dynCall_ji, dynCall_jii, dynCall_iiiijij, dynCall_vij, dynCall_viiji, dynCall_viji, dynCall_iiiji, dynCall_ijj, dynCall_jjj, dynCall_iiiijj, dynCall_viijj, dynCall_viiijjj, dynCall_viijii, dynCall_vijjj, dynCall_vj, dynCall_viij, dynCall_jiji, dynCall_iiiiij, dynCall_iiiiijj, dynCall_iiiiiijj, memory, _kVersionStampBuildChangelistStr, _kVersionStampCitcSnapshotStr, _kVersionStampCitcWorkspaceIdStr, _kVersionStampSourceUriStr, _kVersionStampBuildClientStr, _kVersionStampBuildClientMintStatusStr, _kVersionStampBuildCompilerStr, _kVersionStampBuildDateTimePstStr, _kVersionStampBuildDepotPathStr, _kVersionStampBuildIdStr, _kVersionStampBuildInfoStr, _kVersionStampBuildLabelStr, _kVersionStampBuildTargetStr, _kVersionStampBuildTimestampStr, _kVersionStampBuildToolStr, _kVersionStampG3BuildTargetStr, _kVersionStampVerifiableStr, _kVersionStampBuildFdoTypeStr, _kVersionStampBuildBaselineChangelistStr, _kVersionStampBuildLtoTypeStr, _kVersionStampBuildPropellerTypeStr, _kVersionStampBuildPghoTypeStr, _kVersionStampBuildFdoProfileChangelistStr, _kVersionStampBuildMemprofProfileChangelistStr, _kVersionStampBuildUsernameStr, _kVersionStampBuildHostnameStr, _kVersionStampBuildDirectoryStr, _kVersionStampBuildChangelistInt, _kVersionStampCitcSnapshotInt, _kVersionStampBuildClientMintStatusInt, _kVersionStampBuildTimestampInt, _kVersionStampVerifiableInt, _kVersionStampBuildCoverageEnabledInt, _kVersionStampBuildBaselineChangelistInt, _kVersionStampPrecookedTimestampStr, _kVersionStampPrecookedClientInfoStr, __indirect_function_table, _kVersionStampBuildHasHardeningProtobuf, wasmMemory, wasmTable;
 
 function assignWasmExports(wasmExports) {
-  _free = Module["_free"] = wasmExports["Vd"];
-  _malloc = Module["_malloc"] = wasmExports["Wd"];
-  _interactive_segmenter_create = Module["_interactive_segmenter_create"] = wasmExports["Xd"];
-  _interactive_segmenter_set_image = Module["_interactive_segmenter_set_image"] = wasmExports["Yd"];
-  _interactive_segmenter_segment = Module["_interactive_segmenter_segment"] = wasmExports["Zd"];
-  _interactive_segmenter_close = Module["_interactive_segmenter_close"] = wasmExports["_d"];
-  _wgpuDeviceAddRef = wasmExports["$d"];
-  _addBoundTextureAsImageToStream = Module["_addBoundTextureAsImageToStream"] = wasmExports["ae"];
-  _attachImageListener = Module["_attachImageListener"] = wasmExports["be"];
-  _attachImageVectorListener = Module["_attachImageVectorListener"] = wasmExports["ce"];
-  _registerModelResourcesGraphService = Module["_registerModelResourcesGraphService"] = wasmExports["de"];
-  _bindTextureToStream = Module["_bindTextureToStream"] = wasmExports["ee"];
-  _addBoundTextureToStream = Module["_addBoundTextureToStream"] = wasmExports["fe"];
-  _addDoubleToInputStream = Module["_addDoubleToInputStream"] = wasmExports["ge"];
-  _addFloatToInputStream = Module["_addFloatToInputStream"] = wasmExports["he"];
-  _addBoolToInputStream = Module["_addBoolToInputStream"] = wasmExports["ie"];
-  _addIntToInputStream = Module["_addIntToInputStream"] = wasmExports["je"];
-  _addUintToInputStream = Module["_addUintToInputStream"] = wasmExports["ke"];
-  _addStringToInputStream = Module["_addStringToInputStream"] = wasmExports["le"];
-  _addRawDataSpanToInputStream = Module["_addRawDataSpanToInputStream"] = wasmExports["me"];
-  _allocateBoolVector = Module["_allocateBoolVector"] = wasmExports["ne"];
-  _allocateFloatVector = Module["_allocateFloatVector"] = wasmExports["oe"];
-  _allocateDoubleVector = Module["_allocateDoubleVector"] = wasmExports["pe"];
-  _allocateIntVector = Module["_allocateIntVector"] = wasmExports["qe"];
-  _allocateUintVector = Module["_allocateUintVector"] = wasmExports["re"];
-  _allocateStringVector = Module["_allocateStringVector"] = wasmExports["se"];
-  _addBoolVectorEntry = Module["_addBoolVectorEntry"] = wasmExports["te"];
-  _addFloatVectorEntry = Module["_addFloatVectorEntry"] = wasmExports["ue"];
-  _addDoubleVectorEntry = Module["_addDoubleVectorEntry"] = wasmExports["ve"];
-  _addIntVectorEntry = Module["_addIntVectorEntry"] = wasmExports["we"];
-  _addUintVectorEntry = Module["_addUintVectorEntry"] = wasmExports["xe"];
-  _addStringVectorEntry = Module["_addStringVectorEntry"] = wasmExports["ye"];
-  _addBoolVectorToInputStream = Module["_addBoolVectorToInputStream"] = wasmExports["ze"];
-  _addFloatVectorToInputStream = Module["_addFloatVectorToInputStream"] = wasmExports["Ae"];
-  _addDoubleVectorToInputStream = Module["_addDoubleVectorToInputStream"] = wasmExports["Be"];
-  _addIntVectorToInputStream = Module["_addIntVectorToInputStream"] = wasmExports["Ce"];
-  _addUintVectorToInputStream = Module["_addUintVectorToInputStream"] = wasmExports["De"];
-  _addStringVectorToInputStream = Module["_addStringVectorToInputStream"] = wasmExports["Ee"];
-  _addFlatHashMapToInputStream = Module["_addFlatHashMapToInputStream"] = wasmExports["Fe"];
-  _addProtoToInputStream = Module["_addProtoToInputStream"] = wasmExports["Ge"];
-  _addEmptyPacketToInputStream = Module["_addEmptyPacketToInputStream"] = wasmExports["He"];
-  _addBoolToInputSidePacket = Module["_addBoolToInputSidePacket"] = wasmExports["Ie"];
-  _addDoubleToInputSidePacket = Module["_addDoubleToInputSidePacket"] = wasmExports["Je"];
-  _addFloatToInputSidePacket = Module["_addFloatToInputSidePacket"] = wasmExports["Ke"];
-  _addIntToInputSidePacket = Module["_addIntToInputSidePacket"] = wasmExports["Le"];
-  _addUintToInputSidePacket = Module["_addUintToInputSidePacket"] = wasmExports["Me"];
-  _addStringToInputSidePacket = Module["_addStringToInputSidePacket"] = wasmExports["Ne"];
-  _addRawDataSpanToInputSidePacket = Module["_addRawDataSpanToInputSidePacket"] = wasmExports["Oe"];
-  _addProtoToInputSidePacket = Module["_addProtoToInputSidePacket"] = wasmExports["Pe"];
-  _addBoolVectorToInputSidePacket = Module["_addBoolVectorToInputSidePacket"] = wasmExports["Qe"];
-  _addDoubleVectorToInputSidePacket = Module["_addDoubleVectorToInputSidePacket"] = wasmExports["Re"];
-  _addFloatVectorToInputSidePacket = Module["_addFloatVectorToInputSidePacket"] = wasmExports["Se"];
-  _addIntVectorToInputSidePacket = Module["_addIntVectorToInputSidePacket"] = wasmExports["Te"];
-  _addUintVectorToInputSidePacket = Module["_addUintVectorToInputSidePacket"] = wasmExports["Ue"];
-  _addStringVectorToInputSidePacket = Module["_addStringVectorToInputSidePacket"] = wasmExports["Ve"];
-  _attachBoolListener = Module["_attachBoolListener"] = wasmExports["We"];
-  _attachBoolVectorListener = Module["_attachBoolVectorListener"] = wasmExports["Xe"];
-  _attachDoubleListener = Module["_attachDoubleListener"] = wasmExports["Ye"];
-  _attachDoubleVectorListener = Module["_attachDoubleVectorListener"] = wasmExports["Ze"];
-  _attachFloatListener = Module["_attachFloatListener"] = wasmExports["_e"];
-  _attachFloatVectorListener = Module["_attachFloatVectorListener"] = wasmExports["$e"];
-  _attachIntListener = Module["_attachIntListener"] = wasmExports["af"];
-  _attachIntVectorListener = Module["_attachIntVectorListener"] = wasmExports["bf"];
-  _attachUintListener = Module["_attachUintListener"] = wasmExports["cf"];
-  _attachUintVectorListener = Module["_attachUintVectorListener"] = wasmExports["df"];
-  _attachStringListener = Module["_attachStringListener"] = wasmExports["ef"];
-  _attachStringVectorListener = Module["_attachStringVectorListener"] = wasmExports["ff"];
-  _attachProtoListener = Module["_attachProtoListener"] = wasmExports["gf"];
-  _attachProtoVectorListener = Module["_attachProtoVectorListener"] = wasmExports["hf"];
-  _getGraphConfig = Module["_getGraphConfig"] = wasmExports["jf"];
-  ___getTypeName = wasmExports["kf"];
-  _emwgpuCreateBindGroup = wasmExports["lf"];
-  _emwgpuCreateBindGroupLayout = wasmExports["mf"];
-  _emwgpuCreateCommandBuffer = wasmExports["nf"];
-  _emwgpuCreateCommandEncoder = wasmExports["of"];
-  _emwgpuCreateComputePassEncoder = wasmExports["pf"];
-  _emwgpuCreateComputePipeline = wasmExports["qf"];
-  _emwgpuCreateExternalTexture = wasmExports["rf"];
-  _emwgpuCreatePipelineLayout = wasmExports["sf"];
-  _emwgpuCreateQuerySet = wasmExports["tf"];
-  _emwgpuCreateRenderBundle = wasmExports["uf"];
-  _emwgpuCreateRenderBundleEncoder = wasmExports["vf"];
-  _emwgpuCreateRenderPassEncoder = wasmExports["wf"];
-  _emwgpuCreateRenderPipeline = wasmExports["xf"];
-  _emwgpuCreateSampler = wasmExports["yf"];
-  _emwgpuCreateSurface = wasmExports["zf"];
-  _emwgpuCreateTexture = wasmExports["Af"];
-  _emwgpuCreateTextureView = wasmExports["Bf"];
-  _emwgpuCreateAdapter = wasmExports["Cf"];
-  _emwgpuImportBuffer = wasmExports["Df"];
-  _emwgpuCreateDevice = wasmExports["Ef"];
-  _emwgpuCreateQueue = wasmExports["Ff"];
-  _emwgpuCreateShaderModule = wasmExports["Gf"];
-  _emwgpuOnCreateComputePipelineCompleted = wasmExports["Hf"];
-  _emwgpuOnCreateRenderPipelineCompleted = wasmExports["If"];
-  _clearSubgraphs = Module["_clearSubgraphs"] = wasmExports["Jf"];
-  _pushBinarySubgraph = Module["_pushBinarySubgraph"] = wasmExports["Kf"];
-  _pushTextSubgraph = Module["_pushTextSubgraph"] = wasmExports["Lf"];
-  _changeBinaryGraph = Module["_changeBinaryGraph"] = wasmExports["Mf"];
-  _changeTextGraph = Module["_changeTextGraph"] = wasmExports["Nf"];
-  _processGl = Module["_processGl"] = wasmExports["Of"];
-  _process = Module["_process"] = wasmExports["Pf"];
-  _bindTextureToCanvas = Module["_bindTextureToCanvas"] = wasmExports["Qf"];
-  _requestShaderRefreshOnGraphChange = Module["_requestShaderRefreshOnGraphChange"] = wasmExports["Rf"];
-  _waitUntilIdle = Module["_waitUntilIdle"] = wasmExports["Sf"];
-  _closeGraph = Module["_closeGraph"] = wasmExports["Tf"];
-  _setAutoRenderToScreen = Module["_setAutoRenderToScreen"] = wasmExports["Uf"];
-  _emscripten_builtin_memalign = wasmExports["Wf"];
-  _memalign = wasmExports["Xf"];
-  __emscripten_tempret_set = wasmExports["Yf"];
-  __emscripten_stack_restore = wasmExports["Zf"];
-  __emscripten_stack_alloc = wasmExports["_f"];
-  _emscripten_stack_get_current = wasmExports["$f"];
+  _free = Module["_free"] = wasmExports["Wd"];
+  _malloc = Module["_malloc"] = wasmExports["Xd"];
+  _interactive_segmenter_create = Module["_interactive_segmenter_create"] = wasmExports["Yd"];
+  _interactive_segmenter_set_image = Module["_interactive_segmenter_set_image"] = wasmExports["Zd"];
+  _interactive_segmenter_segment = Module["_interactive_segmenter_segment"] = wasmExports["_d"];
+  _interactive_segmenter_close = Module["_interactive_segmenter_close"] = wasmExports["$d"];
+  _wgpuDeviceAddRef = wasmExports["ae"];
+  _addBoundTextureAsImageToStream = Module["_addBoundTextureAsImageToStream"] = wasmExports["be"];
+  _attachImageListener = Module["_attachImageListener"] = wasmExports["ce"];
+  _attachImageVectorListener = Module["_attachImageVectorListener"] = wasmExports["de"];
+  _mediapipeLoggerGetEncodedApiKey = Module["_mediapipeLoggerGetEncodedApiKey"] = wasmExports["ee"];
+  _registerModelResourcesGraphService = Module["_registerModelResourcesGraphService"] = wasmExports["fe"];
+  _bindTextureToStream = Module["_bindTextureToStream"] = wasmExports["ge"];
+  _addBoundTextureToStream = Module["_addBoundTextureToStream"] = wasmExports["he"];
+  _addDoubleToInputStream = Module["_addDoubleToInputStream"] = wasmExports["ie"];
+  _addFloatToInputStream = Module["_addFloatToInputStream"] = wasmExports["je"];
+  _addBoolToInputStream = Module["_addBoolToInputStream"] = wasmExports["ke"];
+  _addIntToInputStream = Module["_addIntToInputStream"] = wasmExports["le"];
+  _addUintToInputStream = Module["_addUintToInputStream"] = wasmExports["me"];
+  _addStringToInputStream = Module["_addStringToInputStream"] = wasmExports["ne"];
+  _addRawDataSpanToInputStream = Module["_addRawDataSpanToInputStream"] = wasmExports["oe"];
+  _allocateBoolVector = Module["_allocateBoolVector"] = wasmExports["pe"];
+  _allocateFloatVector = Module["_allocateFloatVector"] = wasmExports["qe"];
+  _allocateDoubleVector = Module["_allocateDoubleVector"] = wasmExports["re"];
+  _allocateIntVector = Module["_allocateIntVector"] = wasmExports["se"];
+  _allocateUintVector = Module["_allocateUintVector"] = wasmExports["te"];
+  _allocateStringVector = Module["_allocateStringVector"] = wasmExports["ue"];
+  _addBoolVectorEntry = Module["_addBoolVectorEntry"] = wasmExports["ve"];
+  _addFloatVectorEntry = Module["_addFloatVectorEntry"] = wasmExports["we"];
+  _addDoubleVectorEntry = Module["_addDoubleVectorEntry"] = wasmExports["xe"];
+  _addIntVectorEntry = Module["_addIntVectorEntry"] = wasmExports["ye"];
+  _addUintVectorEntry = Module["_addUintVectorEntry"] = wasmExports["ze"];
+  _addStringVectorEntry = Module["_addStringVectorEntry"] = wasmExports["Ae"];
+  _addBoolVectorToInputStream = Module["_addBoolVectorToInputStream"] = wasmExports["Be"];
+  _addFloatVectorToInputStream = Module["_addFloatVectorToInputStream"] = wasmExports["Ce"];
+  _addDoubleVectorToInputStream = Module["_addDoubleVectorToInputStream"] = wasmExports["De"];
+  _addIntVectorToInputStream = Module["_addIntVectorToInputStream"] = wasmExports["Ee"];
+  _addUintVectorToInputStream = Module["_addUintVectorToInputStream"] = wasmExports["Fe"];
+  _addStringVectorToInputStream = Module["_addStringVectorToInputStream"] = wasmExports["Ge"];
+  _addFlatHashMapToInputStream = Module["_addFlatHashMapToInputStream"] = wasmExports["He"];
+  _addProtoToInputStream = Module["_addProtoToInputStream"] = wasmExports["Ie"];
+  _addEmptyPacketToInputStream = Module["_addEmptyPacketToInputStream"] = wasmExports["Je"];
+  _addBoolToInputSidePacket = Module["_addBoolToInputSidePacket"] = wasmExports["Ke"];
+  _addDoubleToInputSidePacket = Module["_addDoubleToInputSidePacket"] = wasmExports["Le"];
+  _addFloatToInputSidePacket = Module["_addFloatToInputSidePacket"] = wasmExports["Me"];
+  _addIntToInputSidePacket = Module["_addIntToInputSidePacket"] = wasmExports["Ne"];
+  _addUintToInputSidePacket = Module["_addUintToInputSidePacket"] = wasmExports["Oe"];
+  _addStringToInputSidePacket = Module["_addStringToInputSidePacket"] = wasmExports["Pe"];
+  _addRawDataSpanToInputSidePacket = Module["_addRawDataSpanToInputSidePacket"] = wasmExports["Qe"];
+  _addProtoToInputSidePacket = Module["_addProtoToInputSidePacket"] = wasmExports["Re"];
+  _addBoolVectorToInputSidePacket = Module["_addBoolVectorToInputSidePacket"] = wasmExports["Se"];
+  _addDoubleVectorToInputSidePacket = Module["_addDoubleVectorToInputSidePacket"] = wasmExports["Te"];
+  _addFloatVectorToInputSidePacket = Module["_addFloatVectorToInputSidePacket"] = wasmExports["Ue"];
+  _addIntVectorToInputSidePacket = Module["_addIntVectorToInputSidePacket"] = wasmExports["Ve"];
+  _addUintVectorToInputSidePacket = Module["_addUintVectorToInputSidePacket"] = wasmExports["We"];
+  _addStringVectorToInputSidePacket = Module["_addStringVectorToInputSidePacket"] = wasmExports["Xe"];
+  _attachBoolListener = Module["_attachBoolListener"] = wasmExports["Ye"];
+  _attachBoolVectorListener = Module["_attachBoolVectorListener"] = wasmExports["Ze"];
+  _attachDoubleListener = Module["_attachDoubleListener"] = wasmExports["_e"];
+  _attachDoubleVectorListener = Module["_attachDoubleVectorListener"] = wasmExports["$e"];
+  _attachFloatListener = Module["_attachFloatListener"] = wasmExports["af"];
+  _attachFloatVectorListener = Module["_attachFloatVectorListener"] = wasmExports["bf"];
+  _attachIntListener = Module["_attachIntListener"] = wasmExports["cf"];
+  _attachIntVectorListener = Module["_attachIntVectorListener"] = wasmExports["df"];
+  _attachUintListener = Module["_attachUintListener"] = wasmExports["ef"];
+  _attachUintVectorListener = Module["_attachUintVectorListener"] = wasmExports["ff"];
+  _attachStringListener = Module["_attachStringListener"] = wasmExports["gf"];
+  _attachStringVectorListener = Module["_attachStringVectorListener"] = wasmExports["hf"];
+  _attachProtoListener = Module["_attachProtoListener"] = wasmExports["jf"];
+  _attachProtoVectorListener = Module["_attachProtoVectorListener"] = wasmExports["kf"];
+  _getGraphConfig = Module["_getGraphConfig"] = wasmExports["lf"];
+  ___getTypeName = wasmExports["mf"];
+  _emwgpuCreateBindGroup = wasmExports["nf"];
+  _emwgpuCreateBindGroupLayout = wasmExports["of"];
+  _emwgpuCreateCommandBuffer = wasmExports["pf"];
+  _emwgpuCreateCommandEncoder = wasmExports["qf"];
+  _emwgpuCreateComputePassEncoder = wasmExports["rf"];
+  _emwgpuCreateComputePipeline = wasmExports["sf"];
+  _emwgpuCreateExternalTexture = wasmExports["tf"];
+  _emwgpuCreatePipelineLayout = wasmExports["uf"];
+  _emwgpuCreateQuerySet = wasmExports["vf"];
+  _emwgpuCreateRenderBundle = wasmExports["wf"];
+  _emwgpuCreateRenderBundleEncoder = wasmExports["xf"];
+  _emwgpuCreateRenderPassEncoder = wasmExports["yf"];
+  _emwgpuCreateRenderPipeline = wasmExports["zf"];
+  _emwgpuCreateSampler = wasmExports["Af"];
+  _emwgpuCreateSurface = wasmExports["Bf"];
+  _emwgpuCreateTexture = wasmExports["Cf"];
+  _emwgpuCreateTextureView = wasmExports["Df"];
+  _emwgpuCreateAdapter = wasmExports["Ef"];
+  _emwgpuImportBuffer = wasmExports["Ff"];
+  _emwgpuCreateDevice = wasmExports["Gf"];
+  _emwgpuCreateQueue = wasmExports["Hf"];
+  _emwgpuCreateShaderModule = wasmExports["If"];
+  _emwgpuOnCreateComputePipelineCompleted = wasmExports["Jf"];
+  _emwgpuOnCreateRenderPipelineCompleted = wasmExports["Kf"];
+  _clearSubgraphs = Module["_clearSubgraphs"] = wasmExports["Lf"];
+  _pushBinarySubgraph = Module["_pushBinarySubgraph"] = wasmExports["Mf"];
+  _pushTextSubgraph = Module["_pushTextSubgraph"] = wasmExports["Nf"];
+  _changeBinaryGraph = Module["_changeBinaryGraph"] = wasmExports["Of"];
+  _changeTextGraph = Module["_changeTextGraph"] = wasmExports["Pf"];
+  _processGl = Module["_processGl"] = wasmExports["Qf"];
+  _process = Module["_process"] = wasmExports["Rf"];
+  _bindTextureToCanvas = Module["_bindTextureToCanvas"] = wasmExports["Sf"];
+  _requestShaderRefreshOnGraphChange = Module["_requestShaderRefreshOnGraphChange"] = wasmExports["Tf"];
+  _waitUntilIdle = Module["_waitUntilIdle"] = wasmExports["Uf"];
+  _closeGraph = Module["_closeGraph"] = wasmExports["Vf"];
+  _setAutoRenderToScreen = Module["_setAutoRenderToScreen"] = wasmExports["Wf"];
+  _emscripten_builtin_memalign = wasmExports["Yf"];
+  _memalign = wasmExports["Zf"];
+  __emscripten_tempret_set = wasmExports["_f"];
+  __emscripten_stack_restore = wasmExports["$f"];
+  __emscripten_stack_alloc = wasmExports["ag"];
+  _emscripten_stack_get_current = wasmExports["bg"];
   dynCall_ji = wasmExports["dynCall_ji"];
   dynCall_jii = wasmExports["dynCall_jii"];
   dynCall_iiiijij = wasmExports["dynCall_iiiijij"];
@@ -8509,82 +8512,83 @@ function assignWasmExports(wasmExports) {
   dynCall_iiiiij = wasmExports["dynCall_iiiiij"];
   dynCall_iiiiijj = wasmExports["dynCall_iiiiijj"];
   dynCall_iiiiiijj = wasmExports["dynCall_iiiiiijj"];
-  memory = wasmMemory = wasmExports["id"];
-  _kVersionStampBuildChangelistStr = Module["_kVersionStampBuildChangelistStr"] = wasmExports["kd"].value;
-  _kVersionStampCitcSnapshotStr = Module["_kVersionStampCitcSnapshotStr"] = wasmExports["ld"].value;
-  _kVersionStampCitcWorkspaceIdStr = Module["_kVersionStampCitcWorkspaceIdStr"] = wasmExports["md"].value;
-  _kVersionStampSourceUriStr = Module["_kVersionStampSourceUriStr"] = wasmExports["nd"].value;
-  _kVersionStampBuildClientStr = Module["_kVersionStampBuildClientStr"] = wasmExports["od"].value;
-  _kVersionStampBuildClientMintStatusStr = Module["_kVersionStampBuildClientMintStatusStr"] = wasmExports["pd"].value;
-  _kVersionStampBuildCompilerStr = Module["_kVersionStampBuildCompilerStr"] = wasmExports["qd"].value;
-  _kVersionStampBuildDateTimePstStr = Module["_kVersionStampBuildDateTimePstStr"] = wasmExports["rd"].value;
-  _kVersionStampBuildDepotPathStr = Module["_kVersionStampBuildDepotPathStr"] = wasmExports["sd"].value;
-  _kVersionStampBuildIdStr = Module["_kVersionStampBuildIdStr"] = wasmExports["td"].value;
-  _kVersionStampBuildInfoStr = Module["_kVersionStampBuildInfoStr"] = wasmExports["ud"].value;
-  _kVersionStampBuildLabelStr = Module["_kVersionStampBuildLabelStr"] = wasmExports["vd"].value;
-  _kVersionStampBuildTargetStr = Module["_kVersionStampBuildTargetStr"] = wasmExports["wd"].value;
-  _kVersionStampBuildTimestampStr = Module["_kVersionStampBuildTimestampStr"] = wasmExports["xd"].value;
-  _kVersionStampBuildToolStr = Module["_kVersionStampBuildToolStr"] = wasmExports["yd"].value;
-  _kVersionStampG3BuildTargetStr = Module["_kVersionStampG3BuildTargetStr"] = wasmExports["zd"].value;
-  _kVersionStampVerifiableStr = Module["_kVersionStampVerifiableStr"] = wasmExports["Ad"].value;
-  _kVersionStampBuildFdoTypeStr = Module["_kVersionStampBuildFdoTypeStr"] = wasmExports["Bd"].value;
-  _kVersionStampBuildBaselineChangelistStr = Module["_kVersionStampBuildBaselineChangelistStr"] = wasmExports["Cd"].value;
-  _kVersionStampBuildLtoTypeStr = Module["_kVersionStampBuildLtoTypeStr"] = wasmExports["Dd"].value;
-  _kVersionStampBuildPropellerTypeStr = Module["_kVersionStampBuildPropellerTypeStr"] = wasmExports["Ed"].value;
-  _kVersionStampBuildPghoTypeStr = Module["_kVersionStampBuildPghoTypeStr"] = wasmExports["Fd"].value;
-  _kVersionStampBuildFdoProfileChangelistStr = Module["_kVersionStampBuildFdoProfileChangelistStr"] = wasmExports["Gd"].value;
-  _kVersionStampBuildMemprofProfileChangelistStr = Module["_kVersionStampBuildMemprofProfileChangelistStr"] = wasmExports["Hd"].value;
-  _kVersionStampBuildUsernameStr = Module["_kVersionStampBuildUsernameStr"] = wasmExports["Id"].value;
-  _kVersionStampBuildHostnameStr = Module["_kVersionStampBuildHostnameStr"] = wasmExports["Jd"].value;
-  _kVersionStampBuildDirectoryStr = Module["_kVersionStampBuildDirectoryStr"] = wasmExports["Kd"].value;
-  _kVersionStampBuildChangelistInt = Module["_kVersionStampBuildChangelistInt"] = wasmExports["Ld"].value;
-  _kVersionStampCitcSnapshotInt = Module["_kVersionStampCitcSnapshotInt"] = wasmExports["Md"].value;
-  _kVersionStampBuildClientMintStatusInt = Module["_kVersionStampBuildClientMintStatusInt"] = wasmExports["Nd"].value;
-  _kVersionStampBuildTimestampInt = Module["_kVersionStampBuildTimestampInt"] = wasmExports["Od"].value;
-  _kVersionStampVerifiableInt = Module["_kVersionStampVerifiableInt"] = wasmExports["Pd"].value;
-  _kVersionStampBuildCoverageEnabledInt = Module["_kVersionStampBuildCoverageEnabledInt"] = wasmExports["Qd"].value;
-  _kVersionStampBuildBaselineChangelistInt = Module["_kVersionStampBuildBaselineChangelistInt"] = wasmExports["Rd"].value;
-  _kVersionStampPrecookedTimestampStr = Module["_kVersionStampPrecookedTimestampStr"] = wasmExports["Sd"].value;
-  _kVersionStampPrecookedClientInfoStr = Module["_kVersionStampPrecookedClientInfoStr"] = wasmExports["Td"].value;
-  __indirect_function_table = wasmTable = wasmExports["Ud"];
-  _kVersionStampBuildHasHardeningProtobuf = Module["_kVersionStampBuildHasHardeningProtobuf"] = wasmExports["Vf"].value;
+  memory = wasmMemory = wasmExports["jd"];
+  _kVersionStampBuildChangelistStr = Module["_kVersionStampBuildChangelistStr"] = wasmExports["ld"].value;
+  _kVersionStampCitcSnapshotStr = Module["_kVersionStampCitcSnapshotStr"] = wasmExports["md"].value;
+  _kVersionStampCitcWorkspaceIdStr = Module["_kVersionStampCitcWorkspaceIdStr"] = wasmExports["nd"].value;
+  _kVersionStampSourceUriStr = Module["_kVersionStampSourceUriStr"] = wasmExports["od"].value;
+  _kVersionStampBuildClientStr = Module["_kVersionStampBuildClientStr"] = wasmExports["pd"].value;
+  _kVersionStampBuildClientMintStatusStr = Module["_kVersionStampBuildClientMintStatusStr"] = wasmExports["qd"].value;
+  _kVersionStampBuildCompilerStr = Module["_kVersionStampBuildCompilerStr"] = wasmExports["rd"].value;
+  _kVersionStampBuildDateTimePstStr = Module["_kVersionStampBuildDateTimePstStr"] = wasmExports["sd"].value;
+  _kVersionStampBuildDepotPathStr = Module["_kVersionStampBuildDepotPathStr"] = wasmExports["td"].value;
+  _kVersionStampBuildIdStr = Module["_kVersionStampBuildIdStr"] = wasmExports["ud"].value;
+  _kVersionStampBuildInfoStr = Module["_kVersionStampBuildInfoStr"] = wasmExports["vd"].value;
+  _kVersionStampBuildLabelStr = Module["_kVersionStampBuildLabelStr"] = wasmExports["wd"].value;
+  _kVersionStampBuildTargetStr = Module["_kVersionStampBuildTargetStr"] = wasmExports["xd"].value;
+  _kVersionStampBuildTimestampStr = Module["_kVersionStampBuildTimestampStr"] = wasmExports["yd"].value;
+  _kVersionStampBuildToolStr = Module["_kVersionStampBuildToolStr"] = wasmExports["zd"].value;
+  _kVersionStampG3BuildTargetStr = Module["_kVersionStampG3BuildTargetStr"] = wasmExports["Ad"].value;
+  _kVersionStampVerifiableStr = Module["_kVersionStampVerifiableStr"] = wasmExports["Bd"].value;
+  _kVersionStampBuildFdoTypeStr = Module["_kVersionStampBuildFdoTypeStr"] = wasmExports["Cd"].value;
+  _kVersionStampBuildBaselineChangelistStr = Module["_kVersionStampBuildBaselineChangelistStr"] = wasmExports["Dd"].value;
+  _kVersionStampBuildLtoTypeStr = Module["_kVersionStampBuildLtoTypeStr"] = wasmExports["Ed"].value;
+  _kVersionStampBuildPropellerTypeStr = Module["_kVersionStampBuildPropellerTypeStr"] = wasmExports["Fd"].value;
+  _kVersionStampBuildPghoTypeStr = Module["_kVersionStampBuildPghoTypeStr"] = wasmExports["Gd"].value;
+  _kVersionStampBuildFdoProfileChangelistStr = Module["_kVersionStampBuildFdoProfileChangelistStr"] = wasmExports["Hd"].value;
+  _kVersionStampBuildMemprofProfileChangelistStr = Module["_kVersionStampBuildMemprofProfileChangelistStr"] = wasmExports["Id"].value;
+  _kVersionStampBuildUsernameStr = Module["_kVersionStampBuildUsernameStr"] = wasmExports["Jd"].value;
+  _kVersionStampBuildHostnameStr = Module["_kVersionStampBuildHostnameStr"] = wasmExports["Kd"].value;
+  _kVersionStampBuildDirectoryStr = Module["_kVersionStampBuildDirectoryStr"] = wasmExports["Ld"].value;
+  _kVersionStampBuildChangelistInt = Module["_kVersionStampBuildChangelistInt"] = wasmExports["Md"].value;
+  _kVersionStampCitcSnapshotInt = Module["_kVersionStampCitcSnapshotInt"] = wasmExports["Nd"].value;
+  _kVersionStampBuildClientMintStatusInt = Module["_kVersionStampBuildClientMintStatusInt"] = wasmExports["Od"].value;
+  _kVersionStampBuildTimestampInt = Module["_kVersionStampBuildTimestampInt"] = wasmExports["Pd"].value;
+  _kVersionStampVerifiableInt = Module["_kVersionStampVerifiableInt"] = wasmExports["Qd"].value;
+  _kVersionStampBuildCoverageEnabledInt = Module["_kVersionStampBuildCoverageEnabledInt"] = wasmExports["Rd"].value;
+  _kVersionStampBuildBaselineChangelistInt = Module["_kVersionStampBuildBaselineChangelistInt"] = wasmExports["Sd"].value;
+  _kVersionStampPrecookedTimestampStr = Module["_kVersionStampPrecookedTimestampStr"] = wasmExports["Td"].value;
+  _kVersionStampPrecookedClientInfoStr = Module["_kVersionStampPrecookedClientInfoStr"] = wasmExports["Ud"].value;
+  __indirect_function_table = wasmTable = wasmExports["Vd"];
+  _kVersionStampBuildHasHardeningProtobuf = Module["_kVersionStampBuildHasHardeningProtobuf"] = wasmExports["Xf"].value;
 }
 
 var wasmImports = {
-  /** @export */ hd: BeginGlQueryTiming,
-  /** @export */ gd: EndGlQueryTiming,
-  /** @export */ fd: GetAdapterArchitecture,
-  /** @export */ ed: GetAdapterDescription,
-  /** @export */ dd: GetAdapterDeviceName,
-  /** @export */ cd: GetAdapterVendor,
-  /** @export */ bd: JsOnEmptyPacketListener,
-  /** @export */ ad: JsOnFloat32ArrayImageListener,
-  /** @export */ $c: JsOnFloat32ArrayImageVectorListener,
+  /** @export */ id: BeginGlQueryTiming,
+  /** @export */ hd: EndGlQueryTiming,
+  /** @export */ gd: GetAdapterArchitecture,
+  /** @export */ fd: GetAdapterDescription,
+  /** @export */ ed: GetAdapterDeviceName,
+  /** @export */ dd: GetAdapterVendor,
+  /** @export */ cd: JsOnEmptyPacketListener,
+  /** @export */ bd: JsOnFloat32ArrayImageListener,
+  /** @export */ ad: JsOnFloat32ArrayImageVectorListener,
   /** @export */ ob: JsOnSimpleListenerBinaryArray,
-  /** @export */ _c: JsOnSimpleListenerBool,
-  /** @export */ Zc: JsOnSimpleListenerDouble,
-  /** @export */ Yc: JsOnSimpleListenerFloat,
-  /** @export */ Xc: JsOnSimpleListenerInt,
-  /** @export */ Wc: JsOnSimpleListenerString,
-  /** @export */ Vc: JsOnSimpleListenerUint,
-  /** @export */ Uc: JsOnUint8ArrayImageListener,
-  /** @export */ Tc: JsOnUint8ArrayImageVectorListener,
+  /** @export */ $c: JsOnSimpleListenerBool,
+  /** @export */ _c: JsOnSimpleListenerDouble,
+  /** @export */ Zc: JsOnSimpleListenerFloat,
+  /** @export */ Yc: JsOnSimpleListenerInt,
+  /** @export */ Xc: JsOnSimpleListenerString,
+  /** @export */ Wc: JsOnSimpleListenerUint,
+  /** @export */ Vc: JsOnUint8ArrayImageListener,
+  /** @export */ Uc: JsOnUint8ArrayImageVectorListener,
   /** @export */ Q: JsOnVectorFinishedListener,
-  /** @export */ Sc: JsOnVectorListenerBool,
-  /** @export */ Rc: JsOnVectorListenerDouble,
-  /** @export */ Qc: JsOnVectorListenerFloat,
-  /** @export */ Pc: JsOnVectorListenerInt,
-  /** @export */ Oc: JsOnVectorListenerProto,
-  /** @export */ Nc: JsOnVectorListenerString,
-  /** @export */ Mc: JsOnVectorListenerUint,
-  /** @export */ Lc: JsOnWebGLTextureListener,
-  /** @export */ Kc: JsOnWebGLTextureVectorListener,
-  /** @export */ Jc: JsWrapErrorListenerInternal,
+  /** @export */ Tc: JsOnVectorListenerBool,
+  /** @export */ Sc: JsOnVectorListenerDouble,
+  /** @export */ Rc: JsOnVectorListenerFloat,
+  /** @export */ Qc: JsOnVectorListenerInt,
+  /** @export */ Pc: JsOnVectorListenerProto,
+  /** @export */ Oc: JsOnVectorListenerString,
+  /** @export */ Nc: JsOnVectorListenerUint,
+  /** @export */ Mc: JsOnWebGLTextureListener,
+  /** @export */ Lc: JsOnWebGLTextureVectorListener,
+  /** @export */ Kc: JsWrapErrorListenerInternal,
   /** @export */ nb: JsWrapImageConverter,
-  /** @export */ u: JsWrapSimpleListeners,
+  /** @export */ Jc: JsWrapLoggingHelpers,
+  /** @export */ v: JsWrapSimpleListeners,
   /** @export */ mb: UseBottomLeftGpuOrigin,
   /** @export */ xb: __asyncjs__mediapipe_map_buffer_jspi,
-  /** @export */ w: ___cxa_throw,
+  /** @export */ u: ___cxa_throw,
   /** @export */ Ic: ___syscall_dup,
   /** @export */ Hc: ___syscall_faccessat,
   /** @export */ lb: ___syscall_fcntl64,
@@ -8692,7 +8696,7 @@ var wasmImports = {
   /** @export */ l: _glEnableVertexAttribArray,
   /** @export */ Ya: _glFenceSync,
   /** @export */ qa: _glFinish,
-  /** @export */ v: _glFlush,
+  /** @export */ w: _glFlush,
   /** @export */ C: _glFramebufferTexture2D,
   /** @export */ Xa: _glFramebufferTextureLayer,
   /** @export */ r: _glGenBuffers,
@@ -8779,16 +8783,14 @@ var wasmImports = {
 
 // include: postamble.js
 // === Auto-generated postamble setup entry stuff ===
-function run() {
+async function run() {
   if (runDependencies > 0) {
-    dependenciesFulfilled = run;
-    return;
+    await new Promise(resolve => dependenciesFulfilled = resolve);
   }
   preRun();
   // a preRun added a dependency, run will be called later
   if (runDependencies > 0) {
-    dependenciesFulfilled = run;
-    return;
+    await new Promise(resolve => dependenciesFulfilled = resolve);
   }
   function doRun() {
     // run may have just been called through dependencies being fulfilled just in this very frame,
@@ -8796,16 +8798,20 @@ function run() {
     Module["calledRun"] = true;
     if (ABORT) return;
     initRuntime();
-    readyPromiseResolve?.(Module);
     Module["onRuntimeInitialized"]?.();
     postRun();
   }
   if (Module["setStatus"]) {
     Module["setStatus"]("Running...");
-    setTimeout(() => {
-      setTimeout(() => Module["setStatus"](""), 1);
-      doRun();
-    }, 1);
+    // Yield the main thread to allow the browser to paint "Running...", then clear
+    // the status text after the synchronous doRun() completes.
+    await new Promise(resolve => {
+      setTimeout(() => {
+        setTimeout(() => Module["setStatus"](""), 1);
+        doRun();
+        resolve();
+      }, 1);
+    });
   } else {
     doRun();
   }
@@ -8815,28 +8821,12 @@ var wasmExports;
 
 // In modularize mode the generated code is within a factory function so we
 // can use await here (since it's not top-level-await).
-wasmExports = await (createWasm());
+wasmExports = await createWasm();
 
-run();
-
-// end include: postamble.js
-// include: postamble_modularize.js
-// In MODULARIZE mode we wrap the generated code in a factory function
-// and return either the Module itself, or a promise of the module.
-// We assign to the `moduleRtn` global here and configure closure to see
-// this as an extern so it won't get minified.
-if (runtimeInitialized) {
-  moduleRtn = Module;
-} else {
-  // Set up the promise that indicates the Module is initialized
-  moduleRtn = new Promise((resolve, reject) => {
-    readyPromiseResolve = resolve;
-    readyPromiseReject = reject;
-  });
-}
+await run();
 
 
-    return moduleRtn;
+    return Module;
   };
 })();
 
@@ -8848,3 +8838,4 @@ if (typeof exports === 'object' && typeof module === 'object') {
   module.exports.default = ModuleFactory;
 } else if (typeof define === 'function' && define['amd'])
   define([], () => ModuleFactory);
+
