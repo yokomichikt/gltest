@@ -22,7 +22,7 @@
 
     async function run() {
       const vision = await FilesetResolver.forVisionTasks(
-        "https://jsdelivr.net/wasm"
+          "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
       );
       const faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
         baseOptions: {
