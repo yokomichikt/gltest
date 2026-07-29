@@ -4,14 +4,20 @@
 <body>
 TEST
 <canvas id="webgl-canvas"></canvas>
+<div id="vendor"></div>
+<div id="renderer"></div>
 <script>
   const canvas = document.getElementById('webgl-canvas')
   const gl = canvas.getContext('webgl')
   const debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
   const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)
   const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-  console.log(renderer)
+  const vendorElement = document.getElementById('vendor')
+  const rendererElement = document.getElementById('renderer')
+  vendorElement.textContent = vendor
+  rendererElement.textContent = renderer
   console.log(vendor)
-</script>
+  console.log(renderer)
+  </script>
 </body>
 </html>
