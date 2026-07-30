@@ -34,7 +34,9 @@
       });
 
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      console.log(stream)
+      const videoTrack = stream.getVideoTracks()[0];
+      const settings = videoTrack.getSettings();
+      console.log(settings)
       video.srcObject = stream;
       video.addEventListener("loadeddata", () => {
         canvas.width = video.videoWidth;
