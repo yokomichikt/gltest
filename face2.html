@@ -12,41 +12,68 @@
     <video id="webcam" autoplay playsinline></video>
     <canvas id="output_canvas"></canvas>
   </div>
+  <img id="testImg" src="./ok.jpg" style="display: none;">
 
   <script type="module">
     import { FaceLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest";
 
-    const video = document.getElementById("webcam");
+    const camera = document.getElementById("webcam");
     const canvas = document.getElementById("output_canvas");
+    const snapshot = document.createElement("canvas"),
+    const test = document.getElementById("testImg");
+    snapshot.width = camera.videoWidth;
+    snapshot.height = camera.videoHeight;
+    const contextSnapshot = snapshot.getContext("2d");
+
     const ctx = canvas.getContext("2d");
+
+    let lastVideoTime = -1;
 
     async function run() {
       const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
       );
-      const faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+      let faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
         baseOptions: {
           modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
           delegate: "GPU"
         },
-        runningMode: "VIDEO",
-        numFaces: 1
+        runningMode: "IMAGE",
+        numFaces: 1,
+        outputFacialTransformationMatrixes: true,
       });
 
+      try {
+        const results = faceLandmarker.detect(test);
+        console.log(results.faceLandmarks)
+      } catch (error) {
+        console.log(error)
+        // fallback to CPU
+        faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+          baseOptions: {
+            modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
+            delegate: "CPU"
+          },
+          runningMode: "IMAGE",
+          numFaces: 1,
+          outputFacialTransformationMatrixes: true,
+        });
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      video.srcObject = stream;
-      video.addEventListener("loadeddata", () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+      camera.srcObject = stream;
+      camera.addEventListener("loadeddata", () => {
+        canvas.width = camera.videoWidth;
+        canvas.height = camera.videoHeight;
         predictWebcam(faceLandmarker);
       });
     }
 
-    let lastVideoTime = -1;
     async function predictWebcam(faceLandmarker) {
-      if (video.currentTime !== lastVideoTime) {
+      if (camera.currentTime !== lastVideoTime) {
         lastVideoTime = video.currentTime;
-        const results = faceLandmarker.detectForVideo(video, performance.now());
+        contextSnapshot?.drawImage(camera, 0, 0);
+        const results = faceLandmarker.detect(camera);
         
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (results.faceLandmarks) {
