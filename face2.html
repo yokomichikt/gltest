@@ -41,12 +41,20 @@
         outputFacialTransformationMatrixes: true,
       });
 
+      let useCPU = false
       try {
         const results = faceLandmarker.detect(test);
         console.log(results.faceLandmarks)
+        if (results.faceLandmarks.length === 0) {
+          useCPU = true
+        }
       } catch (error) {
         console.log(error)
         // fallback to CPU
+        useCPU = true
+      }
+
+      if (useCPU) {
         faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
           baseOptions: {
             modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
