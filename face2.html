@@ -21,8 +21,6 @@
     const canvas = document.getElementById("output_canvas");
     const snapshot = document.createElement("canvas");
     const test = document.getElementById("testImg");
-    snapshot.width = camera.videoWidth;
-    snapshot.height = camera.videoHeight;
     const contextSnapshot = snapshot.getContext("2d");
 
     const ctx = canvas.getContext("2d");
@@ -65,6 +63,8 @@
       camera.addEventListener("loadeddata", () => {
         canvas.width = camera.videoWidth;
         canvas.height = camera.videoHeight;
+        snapshot.width = camera.videoWidth;
+        snapshot.height = camera.videoHeight;
         predictWebcam(faceLandmarker);
       });
     }
