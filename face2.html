@@ -71,7 +71,7 @@
 
     async function predictWebcam(faceLandmarker) {
       if (camera.currentTime !== lastVideoTime) {
-        lastVideoTime = video.currentTime;
+        lastVideoTime = camera.currentTime;
         contextSnapshot?.drawImage(camera, 0, 0);
         const results = faceLandmarker.detect(camera);
         
