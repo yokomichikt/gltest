@@ -43,6 +43,7 @@
 
       let useCPU = false
       try {
+        console.log(test.naturalWidth, test.naturalHeight)
         const results = faceLandmarker.detect(test);
         console.log(results.faceLandmarks)
         if (results.faceLandmarks.length === 0) {
