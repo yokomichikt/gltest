@@ -6,26 +6,26 @@
   <style>
     video, canvas { position: absolute; left: 0; top: 0; }
   </style>
-</head>
-<body>
-  <div style="position: relative;">
-    <video id="webcam" autoplay playsinline></video>
-    <canvas id="output_canvas"></canvas>
-  </div>
-  <img id="testImg" src="./ok.jpg" style="display: none;">
-
   <script type="module">
     import { FaceLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest";
 
-    const camera = document.getElementById("webcam");
-    const canvas = document.getElementById("output_canvas");
-    const snapshot = document.createElement("canvas");
-    const test = document.getElementById("testImg");
-    const contextSnapshot = snapshot.getContext("2d");
-
-    const ctx = canvas.getContext("2d");
-
+    let camera
+    let canvas
+    let snapshot
+    let test
+    let contextSnapshot
+    let ctx
     let lastVideoTime = -1;
+
+    window.addEventListener("load", () => {
+      camera = document.getElementById("webcam");
+      canvas = document.getElementById("output_canvas");
+      snapshot = document.createElement("canvas");
+      test = document.getElementById("testImg");
+      contextSnapshot = snapshot.getContext("2d");
+      ctx = canvas.getContext("2d");
+      run();
+    });
 
     async function run() {
       const vision = await FilesetResolver.forVisionTasks(
@@ -99,8 +99,13 @@
       }
       requestAnimationFrame(() => predictWebcam(faceLandmarker));
     }
-
-    run();
   </script>
+</head>
+<body>
+  <div style="position: relative;">
+    <video id="webcam" autoplay playsinline></video>
+    <canvas id="output_canvas"></canvas>
+  </div>
+  <img id="testImg" src="./ok.jpg" style="display: none;">
 </body>
 </html>
